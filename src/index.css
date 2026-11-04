@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   スマートフォン表示崩壊の完全解消スタイル
+   ① PCブラウザ上で「スマホ」プレビュー枠を選んだ時（is-mobile-preview）
+   ② 実際のスマートフォン実機で閲覧した時（@media (max-width: 767px)）
+   の両方において、不自然な多列横並びを完全に解消し、縦1列の快適なUIに自動変換します。
+   ========================================================================== */
+
+/* ① PC上のスマホエミュレーション枠（is-mobile-preview）に対する強制スマホレイアウト */
+.is-mobile-preview {
+  contain: paint;
+}
+
+.is-mobile-preview .grid:not(.keep-grid),
+.is-mobile-preview [class*="md:grid-cols-"],
+.is-mobile-preview [class*="lg:grid-cols-"],
+.is-mobile-preview [class*="sm:grid-cols-"] {
+  grid-template-columns: 1fr !important;
+  gap: 1.25rem !important;
+}
+
+/* 2列を意図的に保ちたい軽量ボタン等以外は1列化 */
+.is-mobile-preview .grid-cols-2:not(.keep-2col),
+.is-mobile-preview .grid-cols-3:not(.keep-grid),
+.is-mobile-preview .grid-cols-4:not(.keep-grid),
+.is-mobile-preview .grid-cols-12:not(.keep-grid) {
+  grid-template-columns: 1fr !important;
+}
+
+/* col-span の強制リセット */
+.is-mobile-preview [class*="lg:col-span-"],
+.is-mobile-preview [class*="md:col-span-"],
+.is-mobile-preview [class*="sm:col-span-"],
+.is-mobile-preview [class*="col-span-"] {
+  grid-column: span 1 / span 1 !important;
+}
+
+/* 横並びflexの縦落ち */
+.is-mobile-preview .md\:flex-row,
+.is-mobile-preview .lg\:flex-row {
+  flex-direction: column !important;
+}
+
+/* PC用メニューの非表示維持 */
+.is-mobile-preview nav.hidden.md\:flex,
+.is-mobile-preview .md\:flex.items-center.gap-6,
+.is-mobile-preview .md\:flex.items-center.gap-5 {
+  display: none !important;
+}
+
+/* テキストの縦一文字潰れを徹底防止 */
+.is-mobile-preview h1,
+.is-mobile-preview h2,
+.is-mobile-preview h3,
+.is-mobile-preview h4,
+.is-mobile-preview p,
+.is-mobile-preview span,
+.is-mobile-preview div {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ② 実機スマホ環境（767px以下） */
+@media (max-width: 767px) {
+  .grid-mobile-single {
+    grid-template-columns: 1fr !important;
+  }
+}
